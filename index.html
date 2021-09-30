@@ -1,0 +1,50 @@
+<div id="app">
+  <h1>Greymass WebAuthn</h1>
+
+  <button id="buttonCreateKey">
+    <strong>🔑&nbsp;Create Key</strong>
+  </button>
+
+  <button id="buttonCreateAccount">
+    <strong>👤&nbsp;Create Account</strong>
+  </button>
+
+  <button id="buttonSignTransaction">
+    <strong>✍️&nbsp;Sign Transaction</strong>
+  </button>
+  <br /><br />
+
+  <summary>publicKey</summary>
+  <textarea id="publicKey" spellcheck="false" cols="75" rows="2"></textarea>
+
+  <details close>
+    <summary>rawId</summary>
+    <textarea id="rawId" spellcheck="false" cols="75" rows="2"></textarea>
+  </details>
+
+  <details close>
+    <summary>clientDataJSON</summary>
+    <textarea
+      id="clientDataJSON"
+      spellcheck="false"
+      cols="75"
+      rows="4"
+    ></textarea>
+  </details>
+
+  <details close>
+    <summary>attestationObject</summary>
+    <textarea
+      id="attestationObject"
+      spellcheck="false"
+      cols="75"
+      rows="6"
+    ></textarea>
+  </details>
+
+  <summary>account</summary>
+  <textarea id="account" spellcheck="false" cols="75" rows="1"></textarea>
+
+  <summary>transaction ID</summary>
+  <textarea id="txid" spellcheck="false" cols="75" rows="2"></textarea>
+</div>
