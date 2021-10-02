@@ -1,9 +1,10 @@
 {
-  "name": "typescript",
+  "name": "webauthn",
   "version": "0.0.0",
   "private": true,
   "dependencies": {
     "@greymass/eosio": "^0.5.0",
-    "@greymass/webauthn": "^1.0.0"
+    "@greymass/webauthn": "^1.0.0",
+    "isomorphic-fetch": "^3.0.0"
   }
 }

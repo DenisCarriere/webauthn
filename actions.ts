@@ -1,4 +1,4 @@
-import { Struct, Name, Asset, Action } from '@greymass/eosio';
+import { Struct, Name, Asset, Action, NameType, AssetType } from '@greymass/eosio';
 
 @Struct.type('transfer')
 class Transfer extends Struct {
@@ -8,15 +8,10 @@ class Transfer extends Struct {
   @Struct.field('string') memo!: string;
 }
 
-export function transfer(from: Name, to: Name, quantity: Asset, memo: string) {
+export function transferAction( account: NameType, from: NameType, to: NameType, quantity: AssetType, memo: string ): Action {
   return Action.from({
-    authorization: [
-      {
-        actor: from,
-        permission: 'active',
-      },
-    ],
-    account: 'eosio.token',
+    authorization: [ { actor: from, permission: "active" } ],
+    account,
     name: 'transfer',
     data: Transfer.from({
       from,
@@ -24,5 +19,8 @@ export function transfer(from: Name, to: Name, quantity: Asset, memo: string) {
       quantity,
       memo,
     }),
-  });
+  })
 }
+
+const action = transferAction("eosio.token", "myaccount", "toaccount", "1.0000 EOS", "foo");
+console.log(action.toJSON())
