@@ -8,10 +8,10 @@ class Transfer extends Struct {
   @Struct.field('string') memo!: string;
 }
 
-export function transferAction( account: NameType, from: NameType, to: NameType, quantity: AssetType, memo: string ): Action {
+export function transferAction( from: NameType, to: NameType, quantity: AssetType, memo: string ): Action {
   return Action.from({
     authorization: [ { actor: from, permission: "active" } ],
-    account,
+    account: "eosio.token",
     name: 'transfer',
     data: Transfer.from({
       from,
@@ -22,5 +22,5 @@ export function transferAction( account: NameType, from: NameType, to: NameType,
   })
 }
 
-const action = transferAction("eosio.token", "myaccount", "toaccount", "1.0000 EOS", "foo");
-console.log(action.toJSON())
+const action = transferAction("myaccount", "toaccount", "1.0000 EOS", "foo");
+console.log("action.toJSON", action.toJSON())

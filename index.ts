@@ -12,6 +12,8 @@ import {
 } from '@greymass/eosio';
 import './style.css';
 import { get_chain } from './utils';
+import { transferAction } from "./actions"
+import { client } from "./config"
 
 // localStorage
 const localStorage = window.localStorage;
@@ -25,8 +27,8 @@ const html = {
   account: document.getElementById('account'),
 }
 
-const account = localStorage.getItem("account");
-const publicKey = PublicKey.from(localStorage.getItem("publicKey") || "");
+// const account = localStorage.getItem("account");
+// const publicKey = localStorage.getItem("publicKey") ? PublicKey.from(localStorage.getItem("publicKey")) : "";
 const rawId = Bytes.from(localStorage.getItem("rawId") || "").array.buffer;
 const clientDataJSON = Bytes.from(localStorage.getItem("clientDataJSON") || "").array.buffer;
 const attestationObject = Bytes.from(localStorage.getItem("attestationObject") || "").array.buffer;
@@ -39,9 +41,10 @@ const credentials = {
   },
 };
 
-async function signTransaction() {
+async function signTransaction(publicKey: PublicKey ) {
   const { chain_id, header } = await get_chain();
 
+  const action = transferAction("myaccount", "toaccount", "0.0048 EOS", "Greymass Core");
   const transaction = Transaction.from({
     ...header,
     actions: [action],
@@ -126,18 +129,18 @@ async function getPublicKey() {
   console.log('rawId', Bytes.from(rawId).toString());
   console.log('clientDataJSON', Bytes.from(clientDataJSON).toString());
   console.log('attestationObject', Bytes.from(attestationObject).toString());
-  rawIdSpan.innerHTML = Bytes.from(rawId).toString();
-  clientDataJSONHTML.innerHTML = Bytes.from(clientDataJSON).toString();
-  attestationObjectHTML.innerHTML = Bytes.from(attestationObject).toString();
-  publicKeyHTML.innerHTML = publicKey.toString();
+  html.rawId.innerHTML = Bytes.from(rawId).toString();
+  html.clientDataJSON.innerHTML = Bytes.from(clientDataJSON).toString();
+  html.attestationObject.innerHTML = Bytes.from(attestationObject).toString();
+  html.publicKey.innerHTML = publicKey.toString();
 }
 
 function createAccount() {
-  accountHTML.innerHTML = 'TO-DO';
+  html.account.innerHTML = 'TO-DO';
 }
 
 // function signTransaction() {
-//   txidSpan.innerHTML = 'TO-DO';
+//   txidHTML.innerHTML = 'TO-DO';
 // }
 
 document
@@ -155,5 +158,6 @@ document
 document
   .querySelector('#buttonSignTransaction')
   .addEventListener('click', async () => {
-    signTransaction();
+    const publicKey = PublicKey.from(localStorage.getItem("publicKey"));
+    signTransaction(publicKey);
   });
