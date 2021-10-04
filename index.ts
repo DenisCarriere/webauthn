@@ -1,19 +1,14 @@
 import { createPublic, createSignature } from '@greymass/webauthn';
 import {
-  APIClient,
   Transaction,
-  Struct,
-  Name,
-  Asset,
-  Action,
   PublicKey,
   SignedTransaction,
   Bytes,
 } from '@greymass/eosio';
 import './style.css';
 import { get_chain } from './utils';
-import { transferAction } from "./actions"
-import { client } from "./config"
+import { transferAction } from './actions';
+import { client } from './config';
 
 // localStorage
 const localStorage = window.localStorage;
@@ -25,13 +20,16 @@ const html = {
   attestationObject: document.getElementById('attestationObject'),
   publicKey: document.getElementById('publicKey'),
   account: document.getElementById('account'),
-}
+};
 
 // const account = localStorage.getItem("account");
 // const publicKey = localStorage.getItem("publicKey") ? PublicKey.from(localStorage.getItem("publicKey")) : "";
-const rawId = Bytes.from(localStorage.getItem("rawId") || "").array.buffer;
-const clientDataJSON = Bytes.from(localStorage.getItem("clientDataJSON") || "").array.buffer;
-const attestationObject = Bytes.from(localStorage.getItem("attestationObject") || "").array.buffer;
+const rawId = Bytes.from(localStorage.getItem('rawId') || '').array.buffer;
+const clientDataJSON = Bytes.from(localStorage.getItem('clientDataJSON') || '')
+  .array.buffer;
+const attestationObject = Bytes.from(
+  localStorage.getItem('attestationObject') || ''
+).array.buffer;
 
 const credentials = {
   rawId,
@@ -41,10 +39,15 @@ const credentials = {
   },
 };
 
-async function signTransaction(publicKey: PublicKey ) {
+async function signTransaction(publicKey: PublicKey) {
   const { chain_id, header } = await get_chain();
 
-  const action = transferAction("myaccount", "toaccount", "0.0048 EOS", "Greymass Core");
+  const action = transferAction(
+    'myaccount',
+    'toaccount',
+    '0.0048 EOS',
+    'Greymass Core'
+  );
   const transaction = Transaction.from({
     ...header,
     actions: [action],
@@ -158,6 +161,6 @@ document
 document
   .querySelector('#buttonSignTransaction')
   .addEventListener('click', async () => {
-    const publicKey = PublicKey.from(localStorage.getItem("publicKey"));
+    const publicKey = PublicKey.from(localStorage.getItem('publicKey'));
     signTransaction(publicKey);
   });
